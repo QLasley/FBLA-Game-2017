@@ -68,8 +68,9 @@ public class gameScore : MonoBehaviour {
             GameObject obj3 = GameObject.Find("GlobalObject 3");
             SK3 = obj3.GetComponent<ScoreKeeping>();
             finalScore = SK1.GlobalScore + SK2.GlobalScore + SK3.GlobalScore;
-        } catch
+        } catch (Exception e)
         {
+            Debug.Log(e.Message);
             finalScore = 99;
         }
 
@@ -93,9 +94,9 @@ public class gameScore : MonoBehaviour {
             {
                 if (highScores[i].score < highScores[i + 1].score)
                 {
-                    int temp = highScores[i].score;
-                    highScores[i].score = highScores[i + 1].score;
-                    highScores[i + 1].score = temp;
+                    ScoreObj temp = highScores[i];
+                    highScores[i] = highScores[i + 1];
+                    highScores[i + 1] = temp;
                 }
             }
         }
