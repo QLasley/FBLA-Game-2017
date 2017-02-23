@@ -58,7 +58,7 @@ public class playerScript : MonoBehaviour {
 	}
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Enemy")
+        if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Slow Enemy")
         {
             Destroy(coll.gameObject);
             Lives = Lives - 1;

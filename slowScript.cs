@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class slowScript : MonoBehaviour {
 
-    public int hp = 3;
+    public int hp = 2;
 	// Use this for initialization
 	void Start () {
 		

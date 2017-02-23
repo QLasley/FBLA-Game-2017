@@ -4,7 +4,7 @@ using System.Collections;
 public class bulletHit : MonoBehaviour {
 
     playerScript pS;
-
+    
     slowScript sS;
 
     public const int NORMAL_SCORE = 10;
