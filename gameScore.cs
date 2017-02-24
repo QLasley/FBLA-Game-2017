@@ -59,6 +59,7 @@ public class gameScore : MonoBehaviour {
     // Use this for initialization
     void Start () {
         input = GameObject.Find("InputField").GetComponent<InputField>();
+        input.Select();
         try
         {
             GameObject obj1 = GameObject.Find("GlobalObject 1");
@@ -71,11 +72,24 @@ public class gameScore : MonoBehaviour {
         } catch (Exception e)
         {
             Debug.Log(e.Message);
-            finalScore = 99;
+            finalScore = 0;
         }
 
         ScoreDisplay tempDisp = JsonUtility.FromJson<ScoreDisplay>(PlayerPrefs.GetString("highscores"));
         highScores = tempDisp.scores;
+
+        bool newHigh = false;
+
+        foreach (ScoreObj obj in highScores)
+        {
+            if (obj.score < finalScore) newHigh = true;
+        }
+
+        if (!newHigh)
+        {
+            input.gameObject.active = false;
+        }
+
 
         scoreText.text = "Your Score: " + finalScore.ToString();
 
@@ -88,15 +102,18 @@ public class gameScore : MonoBehaviour {
     {
         int count = 1;
 
-        for (int i = 0; i < highScores.Length; i++)
+        for (int j = 0; j < 2; j++)
         {
-            if (i != highScores.Length - 1)
+            for (int i = 0; i < highScores.Length; i++)
             {
-                if (highScores[i].score < highScores[i + 1].score)
+                if (i != highScores.Length - 1)
                 {
-                    ScoreObj temp = highScores[i];
-                    highScores[i] = highScores[i + 1];
-                    highScores[i + 1] = temp;
+                    if (highScores[i].score < highScores[i + 1].score)
+                    {
+                        ScoreObj temp = highScores[i];
+                        highScores[i] = highScores[i + 1];
+                        highScores[i + 1] = temp;
+                    }
                 }
             }
         }
@@ -161,6 +178,20 @@ public class gameScore : MonoBehaviour {
                 updateHighScores();
             }
             callUpdate = false;
+            
         }
-	}
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Application.LoadLevel("Start");
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            for (int i = 0; i < highScores.Length; i++)
+            {
+                highScores[i] = new ScoreObj("None", 0);
+            }
+            btnClick();
+            updateHighScores();
+        }
+    }
 }

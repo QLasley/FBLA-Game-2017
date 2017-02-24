@@ -12,15 +12,32 @@ public class backgroundScript : MonoBehaviour {
 	void Start () {
 
         input = GameObject.Find("InputField");
-        inField = input.GetComponent<InputField>();
+        try
+        {
+            inField = input.GetComponent<InputField>();
+        }
+        catch
+        {
+
+        }
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
+        try
+        {
             if (Input.GetKeyDown(KeyCode.R) && inField.isFocused == false)
             {
-                Application.LoadLevel("Level 1");
+                Application.LoadLevel("Start");
             }
         }
-    
+        catch
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Application.LoadLevel("Start");
+            }
+        }
+
+    }
 }
