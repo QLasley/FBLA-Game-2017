@@ -23,5 +23,9 @@ public class startScript : MonoBehaviour {
         {
             Application.LoadLevel("Instructions");
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 	}
 }

@@ -10,6 +10,7 @@ public class backgroundScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Debug.Log(PlayerPrefs.GetString("highscores"));
 
         input = GameObject.Find("InputField");
         try
@@ -38,6 +39,9 @@ public class backgroundScript : MonoBehaviour {
                 Application.LoadLevel("Start");
             }
         }
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 }

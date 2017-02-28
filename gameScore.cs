@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class gameScore : MonoBehaviour {
 
-    ScoreObj[] highScores;
+    ScoreObj[] highScores = new ScoreObj[3];
 
     [Serializable]
     public class ScoreDisplay
@@ -29,6 +29,7 @@ public class gameScore : MonoBehaviour {
         {
             this.score = score;
             this.name = name;
+            //Debug.Log("ScoreOBJ string and int done");
         }
 
         public ScoreObj(string JsonObj)
@@ -36,11 +37,13 @@ public class gameScore : MonoBehaviour {
             ScoreObj temp = JsonUtility.FromJson<ScoreObj>(JsonObj);
             this.score = temp.score;
             this.name = temp.name;
+            //Debug.Log("public ScoreObj string Done");
         }
 
         public string getJson()
         {
             return JsonUtility.ToJson(this);
+            //Debug.Log("string getJson Done");
         }
     }
 
@@ -58,6 +61,7 @@ public class gameScore : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Debug.Log(PlayerPrefs.GetString("highscores"));
         input = GameObject.Find("InputField").GetComponent<InputField>();
         input.Select();
         try
@@ -74,9 +78,18 @@ public class gameScore : MonoBehaviour {
             Debug.Log(e.Message);
             finalScore = 0;
         }
-
-        ScoreDisplay tempDisp = JsonUtility.FromJson<ScoreDisplay>(PlayerPrefs.GetString("highscores"));
-        highScores = tempDisp.scores;
+        try {
+            ScoreDisplay tempDisp = JsonUtility.FromJson<ScoreDisplay>(PlayerPrefs.GetString("highscores"));
+            highScores = tempDisp.scores; }
+        catch
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                highScores[i] = new ScoreObj("None", 0);
+            }
+            btnClick();
+            updateHighScores();
+        }
 
         bool newHigh = false;
 
@@ -178,13 +191,13 @@ public class gameScore : MonoBehaviour {
                 updateHighScores();
             }
             callUpdate = false;
-            
+            updateHighScores();
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !input.isFocused)
         {
             Application.LoadLevel("Start");
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && !input.isFocused)
         {
             for (int i = 0; i < highScores.Length; i++)
             {
@@ -192,6 +205,10 @@ public class gameScore : MonoBehaviour {
             }
             btnClick();
             updateHighScores();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
 }

@@ -13,6 +13,8 @@ public class playerScript : MonoBehaviour {
     public Text scoreText;
     public Text loseText;
     public int Score;
+    public AudioClip Shoot;
+    AudioSource Source;
     //playerScript sk; // may remove
 
     // Use this for initialization
@@ -22,10 +24,12 @@ public class playerScript : MonoBehaviour {
         player = GameObject.Find("Player");
         SetLiveText();
         SetScoreText();
-        loseText.text = "";
+        loseText.text = "You Lose!";
+        loseText.enabled = false;
         //GameObject GS = GameObject.Find("GlobalObject"); // may remove
         //sk = GS.GetComponent<playerScript>(); // may remove
         //Score = sk.GlobalScore; // may remove
+        Source = player.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,11 +42,16 @@ public class playerScript : MonoBehaviour {
         {
             GameObject newBullet = Instantiate(bullet, new Vector2(playerX, playerY + 1), Quaternion.identity) as GameObject;
             newBullet.transform.localScale = new Vector2(0.35f, 0.35f);
+            Source.PlayOneShot(Shoot, 1f);
         }
         SetScoreText();
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
+        }
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            Application.LoadLevel(Application.loadedLevel + 1);
         }
     }
 
@@ -52,7 +61,7 @@ public class playerScript : MonoBehaviour {
         
         if (Lives == 0)
         {
-            loseText.text = "You Lose!";
+            loseText.enabled = true;
             player.gameObject.active = false;
         }
 	}

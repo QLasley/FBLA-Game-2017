@@ -3,11 +3,14 @@ using System.Collections;
 
 public class enemyDestroy : MonoBehaviour {
 
+    playerScript pS;
 
 	// Use this for initialization
 	void Start () {
-	
-	}
+        GameObject player = GameObject.Find("Player");
+        pS = player.GetComponent<playerScript>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -19,7 +22,7 @@ public class enemyDestroy : MonoBehaviour {
         {
             Destroy(coll.gameObject);
         }
-        if (coll.gameObject.tag == "Final Enemy")
+        if (coll.gameObject.tag == "Final Enemy" && !pS.loseText.enabled)
         {
             Application.LoadLevel(Application.loadedLevel + 1);
         }
